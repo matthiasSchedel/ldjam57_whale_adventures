@@ -10,6 +10,22 @@ config_version=5
 
 [application]
 
-config/name="New Game Project"
+config/name="The Adventures of Little Whale"
+config/description="The Adventures of Little Whale"
+run/main_scene="uid://dh00qu663injx"
 config/features=PackedStringArray("4.4", "Forward Plus")
+boot_splash/bg_color=Color(0.0196078, 0.345098, 0.905882, 1)
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=2304
+window/size/viewport_height=1296
+window/stretch/mode="canvas_items"
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemy"
+2d_physics/layer_3="food"
+2d_physics/layer_4="obstacle"
