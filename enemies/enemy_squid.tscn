@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://b6r7v5k2gdty8"]
+
+[ext_resource type="Script" uid="uid://3g1yn6v2dmne" path="res://enemies/squid_ai.gd" id="1_r4k3p"]
+[ext_resource type="Texture2D" uid="uid://dd3yfhg3m3sab" path="res://assets/images/squid.png" id="2_uxvw2"]
+[ext_resource type="Script" uid="uid://b38edro4qlo6e" path="res://components/health_bar.gd" id="3_r4k3p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2"]
+radius = 311.411
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y67wr"]
+radius = 122.0
+height = 244.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43hwf"]
+size = Vector2(357, 318)
+
+[node name="EnemySquid" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_r4k3p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_uxvw2")
+hframes = 3
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_2")
+
+[node name="DirectionTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="HealthBar" type="Node2D" parent="."]
+position = Vector2(0, -30)
+script = ExtResource("3_r4k3p")
+max_health = 150.0
+current_health = 150.0
+
+[node name="SoundManager" type="Node" parent="."]
+
+[node name="HeadArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadArea"]
+position = Vector2(-3, -132)
+shape = SubResource("CapsuleShape2D_y67wr")
+
+[node name="TentacleArea" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TentacleArea"]
+position = Vector2(2.5, 124)
+shape = SubResource("RectangleShape2D_43hwf")
+
+[connection signal="body_entered" from="TentacleArea" to="." method="_on_tentacle_area_body_entered"]

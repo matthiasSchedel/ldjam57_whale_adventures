@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://8285tpvmab1e"]
+
+[ext_resource type="Texture2D" uid="uid://gjgece6u6h4o" path="res://assets/images/bg_2.png" id="1_y0upk"]
+[ext_resource type="Shader" uid="uid://cudjyxtaqwpku" path="res://shaders/water_background.gdshader" id="2_jougr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i7s6n"]
+shader = ExtResource("2_jougr")
+shader_parameter/wave_speed = 2.0
+shader_parameter/wave_amplitude = 0.001
+shader_parameter/water_tint = Color(0.580392, 0.701961, 0.956863, 0.14902)
+
+[node name="Background" type="Node2D"]
+
+[node name="b" type="TextureRect" parent="."]
+offset_right = 2307.0
+offset_bottom = 1287.0
+texture = ExtResource("1_y0upk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_i7s6n")
+offset_right = 2306.0
+offset_bottom = 1287.0

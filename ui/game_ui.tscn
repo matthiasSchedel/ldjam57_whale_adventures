@@ -1,0 +1,179 @@
+[gd_scene load_steps=4 format=3 uid="uid://game_ui"]
+
+[ext_resource type="Script" path="res://ui/game_ui.gd" id="1_ui"]
+[ext_resource type="PackedScene" path="res://ui/size_indicator.tscn" id="2_size"]
+[ext_resource type="Script" path="res://ui/toast_manager.gd" id="3_toast"]
+
+[sub_resource type="Shader" id="Shader_water"]
+code = "shader_type canvas_item;
+
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+uniform vec4 water_color : source_color = vec4(0.1, 0.4, 0.7, 0.3);
+uniform float wave_speed = 1.0;
+uniform float wave_amplitude = 0.02;
+uniform float wave_frequency = 10.0;
+uniform float distortion_strength = 0.3;
+uniform float caustics_scale = 5.0;
+uniform float caustics_speed = 0.5;
+
+float random(vec2 uv) {
+    return fract(sin(dot(uv.xy,
+        vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+vec2 random2(vec2 uv) {
+    uv = vec2(dot(uv, vec2(127.1,311.7)),
+              dot(uv, vec2(269.5,183.3)));
+    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
+}
+
+float noise(vec2 uv) {
+    vec2 uv_i = floor(uv);
+    vec2 uv_f = fract(uv);
+    vec2 blur = smoothstep(0.0, 1.0, uv_f);
+    
+    return mix( mix( dot( random2(uv_i + vec2(0.0,0.0) ), uv_f - vec2(0.0,0.0) ),
+                     dot( random2(uv_i + vec2(1.0,0.0) ), uv_f - vec2(1.0,0.0) ), blur.x),
+                mix( dot( random2(uv_i + vec2(0.0,1.0) ), uv_f - vec2(0.0,1.0) ),
+                     dot( random2(uv_i + vec2(1.0,1.0) ), uv_f - vec2(1.0,1.0) ), blur.x), blur.y);
+}
+
+void fragment() {
+    vec2 uv = UV;
+    float time = TIME * wave_speed;
+    
+    // Create wave distortion
+    float wave = sin(uv.x * wave_frequency + time) * wave_amplitude;
+    uv.y += wave;
+    
+    // Add noise-based distortion
+    vec2 noise_uv = uv * caustics_scale;
+    float noise_value = noise(noise_uv + time * caustics_speed);
+    uv += noise_value * distortion_strength;
+    
+    // Sample the screen texture with distorted UVs
+    vec4 screen_color = texture(SCREEN_TEXTURE, SCREEN_UV + uv * 0.02);
+    
+    // Mix with water color
+    COLOR = mix(screen_color, water_color, water_color.a);
+    COLOR.a = water_color.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = SubResource("Shader_water")
+shader_parameter/water_color = Color(0.1, 0.4, 0.7, 0.3)
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_amplitude = 0.02
+shader_parameter/wave_frequency = 10.0
+shader_parameter/distortion_strength = 0.3
+shader_parameter/caustics_scale = 5.0
+shader_parameter/caustics_speed = 0.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_depth"]
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxygen"]
+bg_color = Color(0.2, 0.4, 0.8, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_food"]
+bg_color = Color(0.8, 0.8, 0.2, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
+bg_color = Color(0.8, 0.2, 0.2, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="GameUI" type="CanvasLayer"]
+script = ExtResource("1_ui")
+
+[node name="WaterOverlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_water")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TopUI" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PauseButton" type="Button" parent="MarginContainer/TopUI"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "II"
+
+[node name="BottomUI" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="StatusBars" type="VBoxContainer" parent="MarginContainer/BottomUI"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DepthBar" type="ProgressBar" parent="MarginContainer/BottomUI/StatusBars"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_depth")
+theme_override_styles/fill = SubResource("StyleBoxFlat_depth")
+value = 50.0
+
+[node name="OxygenBar" type="ProgressBar" parent="MarginContainer/BottomUI/StatusBars"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_depth")
+theme_override_styles/fill = SubResource("StyleBoxFlat_oxygen")
+value = 100.0
+
+[node name="SizeIndicator" parent="MarginContainer/BottomUI/StatusBars" instance=ExtResource("2_size")]
+layout_mode = 2
+
+[node name="FoodBar" type="ProgressBar" parent="MarginContainer/BottomUI/StatusBars"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_depth")
+theme_override_styles/fill = SubResource("StyleBoxFlat_food")
+value = 0.0
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/BottomUI/StatusBars"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_depth")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health")
+value = 100.0
+
+[node name="ToastManager" type="Node" parent="."]
+script = ExtResource("3_toast")

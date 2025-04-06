@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4q8j5k2gdty8"]
+
+[ext_resource type="Script" uid="uid://7hl60oa4j131" path="res://spawners/fish_spawner.gd" id="1_n2m3p"]
+[ext_resource type="PackedScene" uid="uid://b8r7v5k2gdty8" path="res://enemies/enemy_fish.tscn" id="2_o4p5q"]
+
+[node name="FishSpawner" type="Node2D"]
+script = ExtResource("1_n2m3p")
+fish_scene = ExtResource("2_o4p5q")
+max_fish = 8
+min_spawn_distance = 800.0
+max_spawn_distance = 1000.0
+spawn_check_interval = 3.0

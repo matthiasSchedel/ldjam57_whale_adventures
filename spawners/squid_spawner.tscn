@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cedb3nsu5x8h"]
+
+[ext_resource type="Script" uid="uid://bllinw7okbm2r" path="res://spawners/squid_spawner.gd" id="1_n2m3p"]
+[ext_resource type="PackedScene" uid="uid://b6r7v5k2gdty8" path="res://enemies/enemy_squid.tscn" id="2_o4p5q"]
+
+[node name="SquidSpawner" type="Node2D"]
+script = ExtResource("1_n2m3p")
+squid_scene = ExtResource("2_o4p5q")

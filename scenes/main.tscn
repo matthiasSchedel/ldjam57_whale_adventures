@@ -1,0 +1,172 @@
+[gd_scene load_steps=15 format=3 uid="uid://c4q8j5k2gdty8"]
+
+[ext_resource type="PackedScene" uid="uid://22nbb1essmqd" path="res://backgrounds/infinite_background.tscn" id="1_bg"]
+[ext_resource type="Script" uid="uid://dtyd74t1lirvs" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://yo1sqre1jog" path="res://assets/images/seaweed.png" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://bu0cgh8lbmegy" path="res://assets/images/tiles.png" id="3_85g3d"]
+[ext_resource type="PackedScene" uid="uid://c4q8j5k2gdty8" path="res://spawners/fish_spawner.tscn" id="3_spawner"]
+[ext_resource type="AudioStream" uid="uid://bsqrjp1xbwp17" path="res://assets/audio/background.ogg" id="5_music"]
+[ext_resource type="PackedScene" uid="uid://b8r7v5k2gdty8" path="res://enemies/enemy_fish.tscn" id="6_enemy"]
+[ext_resource type="PackedScene" uid="uid://c6y5sca13ppl1" path="res://player/player.tscn" id="6_player"]
+[ext_resource type="Texture2D" uid="uid://puc6d68qw6rk" path="res://assets/images/fish.png" id="7_choun"]
+[ext_resource type="PackedScene" uid="uid://c5q8j5k2gdty8" path="res://spawners/small_fish_spawner.tscn" id="7_k2m3p"]
+[ext_resource type="PackedScene" uid="uid://cedb3nsu5x8h" path="res://spawners/squid_spawner.tscn" id="8_k2m3p"]
+[ext_resource type="Texture2D" uid="uid://dd3yfhg3m3sab" path="res://assets/images/squid.png" id="9_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://bfpacqpm38mp6" path="res://ui/game_ui.tscn" id="11_ui"]
+[ext_resource type="PackedScene" path="res://ui/game_over.tscn" id="13_game_over"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_music")
+autoplay = true
+
+[node name="InfiniteBackground" parent="." instance=ExtResource("1_bg")]
+
+[node name="tiles" type="Node2D" parent="."]
+visible = false
+position = Vector2(393, -668)
+
+[node name="stone_tile" type="Sprite2D" parent="tiles"]
+position = Vector2(571, 2178)
+texture = ExtResource("3_85g3d")
+hframes = 3
+vframes = 2
+frame = 2
+
+[node name="sand_tile" type="Sprite2D" parent="tiles"]
+position = Vector2(738, 2184)
+texture = ExtResource("3_85g3d")
+hframes = 3
+vframes = 2
+frame = 1
+
+[node name="sand_tile2" type="Sprite2D" parent="tiles"]
+position = Vector2(959, 2194)
+texture = ExtResource("3_85g3d")
+hframes = 3
+vframes = 2
+frame = 1
+
+[node name="misc_tile" type="Sprite2D" parent="tiles"]
+position = Vector2(1125, 2191)
+texture = ExtResource("3_85g3d")
+hframes = 3
+vframes = 2
+
+[node name="bg_seaweed2" type="Node2D" parent="."]
+position = Vector2(144, -546)
+
+[node name="Sprite2D" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(1350, 1786)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D2" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(1102, 1908)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D3" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(1030, 1660)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D4" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(1802, 1882)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D5" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(2106, 1564)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D6" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(2106, 1564)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D7" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(2176, 2018)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D8" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(2176, 2018)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D9" type="Sprite2D" parent="bg_seaweed2"]
+position = Vector2(2724, 1510)
+texture = ExtResource("2_sugp2")
+
+[node name="Player" parent="." instance=ExtResource("6_player")]
+position = Vector2(960, 540)
+collision_layer = 14
+collision_mask = 1
+
+[node name="fg_seaweed" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(1350, 1786)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D2" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(1102, 1908)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D3" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(1030, 1660)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D4" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(1802, 1882)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D5" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(2106, 1564)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D6" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(2106, 1564)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D7" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(2176, 2018)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D8" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(2176, 2018)
+texture = ExtResource("2_sugp2")
+
+[node name="Sprite2D9" type="Sprite2D" parent="fg_seaweed"]
+position = Vector2(2724, 1510)
+texture = ExtResource("2_sugp2")
+
+[node name="GameUI" parent="." instance=ExtResource("11_ui")]
+
+[node name="small_fish" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="small_fish"]
+position = Vector2(-5, 0)
+texture = ExtResource("7_choun")
+hframes = 3
+vframes = 2
+
+[node name="enemy_fish" type="Node2D" parent="."]
+position = Vector2(1920, 540)
+
+[node name="EnemyFish" parent="enemy_fish" instance=ExtResource("6_enemy")]
+
+[node name="enemy_squid" type="Node2D" parent="."]
+visible = false
+position = Vector2(2313, 493)
+
+[node name="Sprite2D" type="Sprite2D" parent="enemy_squid"]
+position = Vector2(-10, -1)
+texture = ExtResource("9_eb6dy")
+hframes = 3
+frame = 1
+
+[node name="FishSpawner" parent="." instance=ExtResource("3_spawner")]
+
+[node name="SmallFishSpawner" parent="." instance=ExtResource("7_k2m3p")]
+
+[node name="SquidSpawner" parent="." instance=ExtResource("8_k2m3p")]
+
+[node name="GameOver" parent="." instance=ExtResource("13_game_over")]

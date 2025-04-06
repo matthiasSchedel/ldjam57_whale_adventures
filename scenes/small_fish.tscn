@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2q8j5k2gdty8"]
+
+[ext_resource type="Script" uid="uid://de5vpljxwd3yp" path="res://enemies/small_fish_ai.gd" id="1_ai"]
+[ext_resource type="Script" uid="uid://b38edro4qlo6e" path="res://components/health_bar.gd" id="2_health"]
+[ext_resource type="Texture2D" uid="uid://puc6d68qw6rk" path="res://assets/images/fish.png" id="2_o4p5q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 106.061
+
+[node name="SmallFish" type="CharacterBody2D" groups=["food"]]
+scale = Vector2(0.33, 0.33)
+collision_layer = 3
+collision_mask = 4
+script = ExtResource("1_ai")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(30.303, 154.545)
+shape = SubResource("CircleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.727264, -1.10353)
+scale = Vector2(1.00505, 1.00505)
+texture = ExtResource("2_o4p5q")
+hframes = 3
+vframes = 2
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 11
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(21.2121, 154.545)
+shape = SubResource("CircleShape2D_1")
+
+[node name="DirectionTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="HealthBar" type="Node2D" parent="."]
+position = Vector2(0, -20)
+script = ExtResource("2_health")
+max_health = 50.0
+current_health = 50.0

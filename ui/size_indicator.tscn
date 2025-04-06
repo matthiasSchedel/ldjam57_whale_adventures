@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://size_indicator"]
+
+[ext_resource type="Script" path="res://ui/size_indicator.gd" id="1_size"]
+
+[node name="SizeIndicator" type="HBoxContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("1_size")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SizeLabel" type="Label" parent="."]
+layout_mode = 2
+text = "x1.0"
+vertical_alignment = 1 

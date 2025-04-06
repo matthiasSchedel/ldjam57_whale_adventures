@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3 uid="uid://b8r7v5k2gdty8"]
+
+[ext_resource type="Script" uid="uid://bu7ljxgdkgfuj" path="res://enemies/fish_ai.gd" id="1_r4k3p"]
+[ext_resource type="Texture2D" uid="uid://dfkpgy0f4xo5v" path="res://assets/images/enemy_fish.png" id="2_uxvw2"]
+[ext_resource type="Script" uid="uid://y660hd0lilg7" path="res://components/sound_manager.gd" id="3_sound"]
+[ext_resource type="Script" uid="uid://b38edro4qlo6e" path="res://components/health_bar.gd" id="4_health"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2"]
+radius = 225.978
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2nufu"]
+radius = 15.6181
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhico"]
+size = Vector2(265, 266)
+
+[node name="EnemyFish" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 11
+motion_mode = 1
+script = ExtResource("1_r4k3p")
+swimming_speed = 150.0
+pursuit_speed = 250.0
+detection_radius = 400.0
+min_direction_time = 3.0
+max_direction_time = 8.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_uxvw2")
+hframes = 2
+vframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-10, 40)
+shape = SubResource("CircleShape2D_2")
+
+[node name="DirectionTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="HungerTimer" type="Timer" parent="."]
+wait_time = 25.0
+autostart = true
+
+[node name="SoundManager" type="Node" parent="."]
+script = ExtResource("3_sound")
+
+[node name="HealthBar" type="Node2D" parent="."]
+position = Vector2(0, -30)
+script = ExtResource("4_health")
+bar_width = 60.0
+bar_height = 6.0
+bar_color = Color(0.8, 0.2, 0.2, 0.8)
+
+[node name="HeadArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadArea"]
+position = Vector2(96, 59)
+scale = Vector2(7.87548, 8.43707)
+shape = SubResource("CircleShape2D_2nufu")
+
+[node name="BodyArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea"]
+position = Vector2(-106.5, 29)
+shape = SubResource("RectangleShape2D_qhico")

@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://22nbb1essmqd"]
+
+[ext_resource type="Script" path="res://backgrounds/infinite_background.gd" id="1_m2n3k"]
+[ext_resource type="Texture2D" uid="uid://gjgece6u6h4o" path="res://assets/images/bg_2.png" id="2_y4k3p"]
+
+[sub_resource type="Shader" id="Shader_water"]
+code = "shader_type canvas_item;
+
+uniform float wave_speed = 1.0;
+uniform float wave_amplitude = 0.003;
+uniform vec4 water_tint : source_color = vec4(0.2, 0.4, 0.8, 0.1);
+uniform float depth_factor = 0.3;
+
+void fragment() {
+    // Create parallax wave effect
+    vec2 uv = UV;
+    uv.x += sin(uv.y * 10.0 + TIME * wave_speed) * wave_amplitude;
+    uv.y += cos(uv.x * 8.0 + TIME * wave_speed * 0.8) * wave_amplitude;
+    
+    // Sample texture with distortion
+    vec4 color = texture(TEXTURE, uv);
+    
+    // Add water tint that increases with depth
+    float depth = UV.y * depth_factor;
+    vec4 tint = water_tint;
+    tint.a *= depth;
+    
+    // Mix original color with tint
+    color.rgb = mix(color.rgb, water_tint.rgb, tint.a);
+    
+    // Darken with depth
+    color.rgb *= (1.0 - depth * 0.3);
+    
+    COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = SubResource("Shader_water")
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_amplitude = 0.003
+shader_parameter/water_tint = Color(0.2, 0.4, 0.8, 0.1)
+shader_parameter/depth_factor = 0.3
+
+[node name="InfiniteBackground" type="ParallaxBackground"]
+script = ExtResource("1_m2n3k")
+
+[node name="FarLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Background" type="Sprite2D" parent="FarLayer"]
+modulate = Color(0.6, 0.7, 0.9, 1)
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(2.26562, 1.2666)
+texture = ExtResource("2_y4k3p")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1080)
+
+[node name="MidLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Background" type="Sprite2D" parent="MidLayer"]
+modulate = Color(0.7, 0.8, 1, 0.7)
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_water")
+scale = Vector2(2.26562, 1.2666)
+texture = ExtResource("2_y4k3p")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1080)
+
+[node name="NearLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="Background" type="Sprite2D" parent="NearLayer"]
+modulate = Color(0.8, 0.9, 1, 0.4)
+texture_filter = 1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_water")
+scale = Vector2(2.26562, 1.2666)
+texture = ExtResource("2_y4k3p")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1080)

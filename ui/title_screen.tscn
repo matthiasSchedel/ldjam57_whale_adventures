@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh00qu663injx"]
+
+[ext_resource type="Texture2D" uid="uid://db6blimgkbr6r" path="res://assets/images/title_01.png" id="1_fgkus"]
+[ext_resource type="Script" uid="uid://bmief68jtia42" path="res://ui/title_screen.gd" id="1_nxr8p"]
+
+[sub_resource type="Shortcut" id="Shortcut_8p4yw"]
+events = [{
+"action": "start_game",
+"pressed": true
+}]
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nxr8p")
+
+[node name="Title01" type="Sprite2D" parent="."]
+position = Vector2(1156.5, 652)
+scale = Vector2(1.49674, 1.27148)
+texture = ExtResource("1_fgkus")
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+shortcut = SubResource("Shortcut_8p4yw")
+text = "Start Game"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

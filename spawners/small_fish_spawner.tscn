@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5q8j5k2gdty8"]
+
+[ext_resource type="Script" uid="uid://cxuns23cubx83" path="res://spawners/small_fish_spawner.gd" id="1_n2m3p"]
+[ext_resource type="PackedScene" uid="uid://d2q8j5k2gdty8" path="res://scenes/small_fish.tscn" id="2_o4p5q"]
+
+[node name="SmallFishSpawner" type="Node2D"]
+script = ExtResource("1_n2m3p")
+fish_scene = ExtResource("2_o4p5q")
